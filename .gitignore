@@ -1,4 +1,4 @@
 .git
 .vagrant
 .project
-deploy_vagrant.sh
+deploy_vagrant**.sh
