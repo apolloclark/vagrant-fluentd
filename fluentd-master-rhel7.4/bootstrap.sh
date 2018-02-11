@@ -73,6 +73,9 @@ curl -sSL https://toolbelt.treasuredata.com/sh/install-redhat-td-agent3.sh | sh
 # configure
 cp /vagrant/provision/fluentd/td-agent.conf /etc/td-agent/td-agent.conf
 
+# test configuration
+td-agent --dry-run -c /etc/td-agent/td-agent.conf
+
 # start fluentd
 systemctl start td-agent.service
 

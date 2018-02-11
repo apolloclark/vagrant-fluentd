@@ -63,10 +63,13 @@ yum install -y -q -e 0 nano git net-tools policycoreutils-python
 
 # install td-agent
 # https://docs.fluentd.org/v1.0/articles/install-by-rpm
-curl -sSL https://toolbelt.treasuredata.com/sh/install-redhat-td-agent3.sh | sh
+curl -sSL https://toolbelt.treasuredata.com/sh/install-redhat-td-agent3.sh | sh 2>&1
 
 # configure
 cp /vagrant/provision/fluentd/td-agent.conf /etc/td-agent/td-agent.conf
+
+# test configuration
+td-agent --dry-run -c /etc/td-agent/td-agent.conf
 
 # start fluentd
 service td-agent start
@@ -98,7 +101,7 @@ semanage port -l | grep -F "syslogd_port_t" | grep 5140
 # configure rsyslog
 cp /vagrant/provision/rsyslogd/rsyslog.conf /etc/rsyslog.conf
 
-# verify configuration
+# test configuration
 rsyslogd -N1 2>&1
 
 # start rsyslog
