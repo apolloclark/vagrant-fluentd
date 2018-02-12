@@ -13,7 +13,7 @@ REDHAT_USER=''
 REDHAT_PASS=''
 
 # launch master collector
-cd ./vagrant-fluentd/fluentd-master-rhel6.9
+cd ./vagrant-fluentd/fluentd-master-rhel7.4
 vagrant up
 ```
 
@@ -22,11 +22,31 @@ vagrant up
 ```shell
 
 # fluentd
-nano /var/log/td-agent/td-agent.log
 
+## config
+nano /etc/td-agent/td-agent.conf
+
+## verify config
+td-agent --dry-run -c /etc/td-agent/td-agent.conf
+
+## check fluentd / td-agent status
+
+systemctl status td-agent.service
+
+## restart fluentd / td-agent
+systemctl restart td-agent.service
+
+## logs
+nano /var/log/td-agent/td-agent.log
 watch -n 1 "tail -n 48 /var/log/td-agent/td-agent.log"
 
+## check if selinux is blocking fluentd
 grep -F "td-agent" /var/log/audit/audit.log | grep -F "success=no"
+
+## configure selinux
+
+semanage port -a -t syslogd_port_t -p tcp 5140
+semanage port -l | grep -F "syslogd_port_t" | grep 5140
 
 
 
@@ -41,5 +61,6 @@ grep -F "/usr/sbin/rsyslogd" /var/log/audit/audit.log | grep -F "success=no"
 ## test logging
 logger testmessage5
 grep -F "testmessage5" /var/log/messages
+sleep 30s
 grep -F "testmessage5" /var/log/td-agent/td-agent.log
 ```
