@@ -115,4 +115,5 @@ systemctl enable rsyslog 2>&1
 # test rsyslog
 logger TroubleshootingTest
 grep -F "TroubleshootingTest" /var/log/messages
+sleep 30s
 grep -F "TroubleshootingTest" /var/log/td-agent/td-agent.log
