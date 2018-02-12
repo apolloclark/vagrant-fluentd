@@ -5,8 +5,11 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "apolloclark/rhel7.4"
+  config.vm.box = "apolloclark/rhel6.9"
   config.vm.provider "virtualbox" do |vb, override|
+
+    # set the VM name
+    vb.name = "fluentd-master-rhel6.9"
 
     # configure VM
     vb.cpus = 1

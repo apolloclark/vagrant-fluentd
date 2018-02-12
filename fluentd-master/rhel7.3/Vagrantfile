@@ -1,0 +1,31 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://vagrantcloud.com/search.
+  config.vm.box = "apolloclark/rhel7.3"
+  config.vm.provider "virtualbox" do |vb, override|
+
+    # set the VM name
+    vb.name = "fluentd-master-rhel7.3"
+
+    # configure VM
+    vb.cpus = 1
+    vb.gui = false
+    vb.memory = "2048"
+    
+    # Share a folder to the guest VM, types: docker, nfs, rsync, smb, virtualbox
+    # Windows supports: smb
+    # Mac supports: rsync, nfs
+    # override.vm.synced_folder host_folder.to_s, guest_folder.to_s, type: "smb"
+    override.vm.synced_folder "./data", "/vagrant"
+  end
+
+  # default provisioning script
+  # https://www.vagrantup.com/docs/provisioning/shell.html
+  config.vm.provision :shell,
+    :path => "./bootstrap.sh",
+    :args => "'#{ENV['REDHAT_USER']}' '#{ENV['REDHAT_PASS']}'"
+end
