@@ -19,46 +19,62 @@ vagrant up
 
 
 ## Logs
+
+### fluentd
+
 ```shell
-
-# fluentd
-
-## config
+# config
 nano /etc/td-agent/td-agent.conf
 
-## verify config
+# verify config
 td-agent --dry-run -c /etc/td-agent/td-agent.conf
 
-## check fluentd / td-agent status
-
+# check fluentd / td-agent status
 systemctl status td-agent.service
 
-## restart fluentd / td-agent
+# restart fluentd / td-agent
 systemctl restart td-agent.service
 
-## logs
+# logs
 nano /var/log/td-agent/td-agent.log
 watch -n 1 "tail -n 48 /var/log/td-agent/td-agent.log"
 
-## check if selinux is blocking fluentd
+# check if selinux is blocking fluentd
 grep -F "td-agent" /var/log/audit/audit.log | grep -F "success=no"
 
-## configure selinux
+# configure selinux
+semanage port -a -t syslogd_port_t -p tcp 5140
+semanage port -l | grep -F "syslogd_port_t" | grep 5140
+```
 
+
+
+### rsyslogd
+
+```shell
+# config
+nano /etc/rsyslog.conf
+
+# verify config
+rsyslogd -N1
+
+# check status
+systemctl status rsyslog
+
+# restart rsyslog
+systemctl restart rsyslog
+
+# check for errors
+cat /var/log/messages | grep rsyslogd
+
+# check if SELinux is blocking rsyslog
+grep -F "/usr/sbin/rsyslogd" /var/log/audit/audit.log | grep -F "success=no"
+
+# configure selinux
 semanage port -a -t syslogd_port_t -p tcp 5140
 semanage port -l | grep -F "syslogd_port_t" | grep 5140
 
-
-
-# rsyslogd
-
-## check for errors
-cat /var/log/messages | grep rsyslogd
-
-## check if SELinux is blocking rsyslog
-grep -F "/usr/sbin/rsyslogd" /var/log/audit/audit.log | grep -F "success=no"
-
-## test logging
+# test logging
 logger testmessage5
 grep -F "testmessage5" /var/log/messages
 sleep 30s
