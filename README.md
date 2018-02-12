@@ -3,7 +3,7 @@
 Project to deploy a Redhat based fluentd collector, from rsyslog, running on
 multiple different Linux and Windows hosts.
 
-## Deploy
+## Deploy - fluentd master
 
 ```shell
 git clone https://github.com/apolloclark/vagrant-fluentd
@@ -12,9 +12,25 @@ git clone https://github.com/apolloclark/vagrant-fluentd
 REDHAT_USER=''
 REDHAT_PASS=''
 
-# launch master collector
-cd ./vagrant-fluentd/fluentd-master-rhel7.4
+# launch fluentd master collector
+cd ./vagrant-fluentd/fluentd-master/rhel7.2
 vagrant up
+```
+
+## Deploy - hadoop master
+
+```shell
+git clone https://github.com/apolloclark/vagrant-fluentd
+
+# configure Redhat subscription variables
+REDHAT_USER=''
+REDHAT_PASS=''
+
+# launch fluentd master collector
+cd ./vagrant-fluentd/hadoop-master/rhel7.2
+vagrant up
+
+# open browser - http://127.0.0.1:9870
 ```
 
 
