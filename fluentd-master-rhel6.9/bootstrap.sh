@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -eux
 
 # get the REDHAT variables
 REDHAT_USER=${1:-}
