@@ -30,10 +30,10 @@ nano /etc/td-agent/td-agent.conf
 td-agent --dry-run -c /etc/td-agent/td-agent.conf
 
 # check fluentd / td-agent status
-systemctl status td-agent.service
+systemctl status td-agent
 
 # restart fluentd / td-agent
-systemctl restart td-agent.service
+systemctl restart td-agent
 
 # logs
 nano /var/log/td-agent/td-agent.log
