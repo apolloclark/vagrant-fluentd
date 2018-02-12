@@ -29,17 +29,23 @@ nano /etc/td-agent/td-agent.conf
 # verify config
 td-agent --dry-run -c /etc/td-agent/td-agent.conf
 
-# check fluentd / td-agent status
+# check version
+td-agent --version
+
+# check package version
+yum info td-agent | grep "Version"
+
+# check status
 systemctl status td-agent
 
-# restart fluentd / td-agent
+# restart
 systemctl restart td-agent
 
 # logs
 nano /var/log/td-agent/td-agent.log
 watch -n 1 "tail -n 48 /var/log/td-agent/td-agent.log"
 
-# check if selinux is blocking fluentd
+# check if selinux is blocking
 grep -F "td-agent" /var/log/audit/audit.log | grep -F "success=no"
 
 # configure selinux
@@ -58,16 +64,22 @@ nano /etc/rsyslog.conf
 # verify config
 rsyslogd -N1
 
+# check verstion
+rsyslogd -version | head -n 1
+
+# check package version
+yum info rsyslog | grep "Version"
+
 # check status
 systemctl status rsyslog
 
-# restart rsyslog
+# restart
 systemctl restart rsyslog
 
 # check for errors
 cat /var/log/messages | grep rsyslogd
 
-# check if SELinux is blocking rsyslog
+# check if SELinux is blocking
 grep -F "/usr/sbin/rsyslogd" /var/log/audit/audit.log | grep -F "success=no"
 
 # configure selinux
