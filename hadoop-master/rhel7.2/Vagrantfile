@@ -1,0 +1,63 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://vagrantcloud.com/search.
+  config.vm.box = "apolloclark/rhel7.2"
+  config.vm.provider "virtualbox" do |vb, override|
+
+    # set the VM name
+    vb.name = "hadoop-master-rhel7.2"
+
+    # configure VM
+    vb.cpus = 1
+    vb.gui = false
+    vb.memory = "2048"
+    
+    # httpfs
+    override.vm.network "forwarded_port", guest: 14000, host: 14000, auto_correct: true
+
+    # resource manager
+    override.vm.network "forwarded_port", guest: 8088, host: 8088, auto_correct: true
+    # override.vm.network "forwarded_port", guest: 8030, host: 8030, auto_correct: true
+    # override.vm.network "forwarded_port", guest: 8031, host: 8031, auto_correct: true
+    # override.vm.network "forwarded_port", guest: 8032, host: 8032, auto_correct: true
+
+    # node manager
+    override.vm.network "forwarded_port", guest: 8042, host: 8042, auto_correct: true
+    # override.vm.network "forwarded_port", guest: 8040, host: 8040, auto_correct: true
+    # override.vm.network "forwarded_port", guest: 38930, host: 38930, auto_correct: true
+    # override.vm.network "forwarded_port", guest: 13562, host: 13562, auto_correct: true
+
+    # data nodes
+    override.vm.network "forwarded_port", guest: 9864, host: 9864, auto_correct: true
+    # override.vm.network "forwarded_port", guest: 9865, host: 9865, auto_correct: true
+    # override.vm.network "forwarded_port", guest: 9866, host: 9866, auto_correct: true
+    # override.vm.network "forwarded_port", guest: 9867, host: 9867, auto_correct: true
+
+    # secondary name nodes
+    override.vm.network "forwarded_port", guest: 9868, host: 9868, auto_correct: true
+    # override.vm.network "forwarded_port", guest: 9869, host: 9869, auto_correct: true
+
+    # name nodes
+    override.vm.network "forwarded_port", guest: 9870, host: 9870, auto_correct: true
+    # override.vm.network "forwarded_port", guest: 9871, host: 9871, auto_correct: true
+
+    # Share a folder to the guest VM, types: docker, nfs, rsync, smb, virtualbox
+    # Windows supports: smb
+    # Mac supports: rsync, nfs
+    # override.vm.synced_folder host_folder.to_s, guest_folder.to_s, type: "smb"
+    override.vm.synced_folder "./data", "/vagrant"
+  end
+
+  # default provisioning script
+  # https://www.vagrantup.com/docs/provisioning/shell.html
+  config.vm.provision :shell,
+    :path => "./data/provision/bootstrap.sh",
+    :args => "'#{ENV['REDHAT_USER']}' '#{ENV['REDHAT_PASS']}'"
+  # config.vm.provision :shell, path: "./data/provision/td-agent.sh"
+  # config.vm.provision :shell, path: "./data/provision/rsyslogd.sh"
+  config.vm.provision :shell, path: "./data/provision/hadoop.sh"
+end
