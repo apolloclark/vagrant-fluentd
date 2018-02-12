@@ -73,13 +73,13 @@ cp /vagrant/provision/fluentd/td-agent.conf /etc/td-agent/td-agent.conf
 td-agent --dry-run -c /etc/td-agent/td-agent.conf
 
 # start fluentd
-systemctl start td-agent.service
+systemctl start td-agent
 
 # check fluentd status
-systemctl status td-agent.service
+systemctl status td-agent
 
 # enable fluentd auto-start
-systemctl enable td-agent.service 2>&1
+systemctl enable td-agent 2>&1
 
 # test fluentd
 sleep 30s
