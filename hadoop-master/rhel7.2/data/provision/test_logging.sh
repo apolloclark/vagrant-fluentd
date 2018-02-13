@@ -32,5 +32,5 @@ systemctl status rsyslog
 # test rsyslog -> hdfs
 logger TroubleshootingTest
 grep -F "TroubleshootingTest" /var/log/messages
-# sleep 30s
+sleep 30s
 curl -sL http://127.0.0.1:9870/webhdfs/v1/logs?op=LISTSTATUS | grep -F 'access.log'
