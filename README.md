@@ -1,9 +1,9 @@
 # fluentd-vagrant
 
-Project to deploy a Redhat based fluentd collector, from rsyslog, running on
+Project to deploy a Redhat based fluentd collector, from rsyslog, to Hadoop, running on
 multiple different Linux and Windows hosts.
 
-## Deploy - fluentd master
+## Deploy - fluentd-only master
 
 ```shell
 git clone https://github.com/apolloclark/vagrant-fluentd
@@ -16,8 +16,16 @@ REDHAT_PASS=''
 cd ./vagrant-fluentd/fluentd-master/rhel7.2
 vagrant up
 ```
+<br/><br/><br/>
 
-## Deploy - hadoop master
+
+
+## OR
+<br/><br/><br/>
+
+
+
+## Deploy - fluentd + hadoop master
 
 ```shell
 git clone https://github.com/apolloclark/vagrant-fluentd
