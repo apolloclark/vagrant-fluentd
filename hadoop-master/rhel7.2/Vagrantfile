@@ -57,7 +57,8 @@ Vagrant.configure("2") do |config|
   config.vm.provision :shell,
     :path => "./data/provision/bootstrap.sh",
     :args => "'#{ENV['REDHAT_USER']}' '#{ENV['REDHAT_PASS']}'"
-  # config.vm.provision :shell, path: "./data/provision/td-agent.sh"
-  # config.vm.provision :shell, path: "./data/provision/rsyslogd.sh"
+  config.vm.provision :shell, path: "./data/provision/td-agent.sh"
+  config.vm.provision :shell, path: "./data/provision/rsyslogd.sh"
   config.vm.provision :shell, path: "./data/provision/hadoop.sh"
+  config.vm.provision :shell, path: "./data/provision/test_logging.sh"
 end

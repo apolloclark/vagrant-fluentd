@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  http://archive.cloudera.com/cdh5/cdh/5/hadoop/hadoop-hdfs-httpfs/httpfs-default.html
+  https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/HttpAuthentication.html
+  https://hadoop.apache.org/docs/current/hadoop-hdfs-httpfs/ServerSetup.html
+-->
+
+<configuration>
+  <property>
+    <name>hadoop.security.authorization</name>
+    <value>true</value>
+    <description>Is service-level authorization enabled?</description>
+  </property>
+</configuration>
+

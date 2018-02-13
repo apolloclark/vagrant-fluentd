@@ -31,21 +31,10 @@ sysctl -p > /dev/null
 curl -sSL https://toolbelt.treasuredata.com/sh/install-redhat-td-agent3.sh | sh
 
 # configure
-cp /vagrant/provision/fluentd/td-agent.conf /etc/td-agent/td-agent.conf
+\cp /vagrant/provision/fluentd/td-agent.conf /etc/td-agent/td-agent.conf
 
 # test configuration
 td-agent --dry-run -c /etc/td-agent/td-agent.conf
 
-# start fluentd
-systemctl start td-agent
-
-# check fluentd status
-systemctl status td-agent
-
 # enable fluentd auto-start
 systemctl enable td-agent 2>&1
-
-# test fluentd
-sleep 30s
-curl -sSL -X POST -d 'json={"json":"message"}' http://localhost:9880/debug.test
-grep -F 'debug.test: {"json":"message"}' /var/log/td-agent/td-agent.log
