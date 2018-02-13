@@ -20,6 +20,22 @@ echo "REDHAT_PASS = $REDHAT_PASS";
 
 
 
+# register with Redhat
+subscription-manager register --username "$REDHAT_USER" --password "$REDHAT_PASS"
+
+# register with self-serve virtual subscription
+subscription-manager subscribe --pool=8a85f98c615810120161582177020497
+
+# apply security updates
+yum update-minimal --security -y -e 0
+
+# install basic tools
+yum install -y -q -e 0 nano git net-tools policycoreutils-python
+
+
+
+
+
 # increase max # of file descriptors
 cat << EOF > /etc/security/limits.conf
 root soft nofile 65536
@@ -45,22 +61,6 @@ EOF
 
 # reload settings
 sysctl -p > /dev/null
-
-# register with Redhat
-subscription-manager register --username "$REDHAT_USER" --password "$REDHAT_PASS"
-
-# register with self-serve virtual subscription
-subscription-manager subscribe --pool=8a85f98c615810120161582177020497
-
-# apply security updates
-yum update-minimal --security -y -e 0
-
-# install basic tools
-yum install -y -q -e 0 nano git net-tools policycoreutils-python
-
-
-
-
 
 # install td-agent
 # https://docs.fluentd.org/v1.0/articles/install-by-rpm
