@@ -32,6 +32,8 @@ vagrant up
 
 # open browser - http://127.0.0.1:9870
 ```
+<br/><br/><br/>
+
 
 
 ## Logs
@@ -42,17 +44,23 @@ vagrant up
 # config
 nano /etc/td-agent/td-agent.conf
 
+# update config
+\cp /vagrant/provision/fluentd/td-agent.conf /etc/td-agent/td-agent.conf
+
 # verify config
 td-agent --dry-run -c /etc/td-agent/td-agent.conf
 
-# check version
+# check version, 1.0.2
 td-agent --version
 
-# check package version
+# check package version, 3.1.1
 yum info td-agent | grep "Version"
 
 # check status
 systemctl status td-agent
+
+# stop
+systemctl stop td-agent
 
 # restart
 systemctl restart td-agent
@@ -60,6 +68,9 @@ systemctl restart td-agent
 # logs
 nano /var/log/td-agent/td-agent.log
 watch -n 1 "tail -n 48 /var/log/td-agent/td-agent.log"
+
+# clear logs
+echo "" > /var/log/td-agent/td-agent.log
 
 # check if selinux is blocking
 grep -F "td-agent" /var/log/audit/audit.log | grep -F "success=no"
@@ -107,4 +118,47 @@ logger testmessage5
 grep -F "testmessage5" /var/log/messages
 sleep 30s
 grep -F "testmessage5" /var/log/td-agent/td-agent.log
+```
+
+
+
+### hadoop
+
+```shell
+
+# get a list of running Java services
+ps -aux | grep java | awk '{print $12, $2}' | cut -c 8- | head -n -1 | awk '{print $2, $1}'
+
+# check if selinux is blocking
+grep -F "java" /var/log/audit/audit.log | grep -F "success=no"
+
+# configure selinux
+semanage port -a -t http_port_t -p tcp 9870
+semanage port -l | grep -F "http_port_t" | grep 9870
+
+# try to curl the HDFS UI
+curl -sSL http://127.0.0.1:9870 > /dev/null
+
+
+
+# name node folder
+/opt/hadoop/hdfs/namenode
+
+# data node folder
+/opt/hadoop/hdfs/datanod
+
+# view data node
+http://127.0.0.1:9870
+
+# view data node folders
+http://127.0.0.1:9870/explorer.html
+
+# restart nodes
+stop-dfs.sh && start-dfs.sh
+
+# restart httpfs
+hdfs --daemon stop httpfs && hdfs --daemon stop httpfs
+
+
+
 ```
