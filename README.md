@@ -38,7 +38,7 @@ REDHAT_PASS=''
 cd ./vagrant-fluentd/hadoop-master/rhel7.2
 vagrant up
 
-# open browser - http://127.0.0.1:9870
+# open browser - http://127.0.0.1:9870/explorer.html#/logs
 ```
 <br/><br/><br/>
 
