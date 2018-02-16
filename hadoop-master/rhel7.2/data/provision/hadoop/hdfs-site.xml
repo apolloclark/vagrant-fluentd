@@ -2,6 +2,7 @@
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 
 <configuration>
+
 <property>
  <name>dfs.replication</name>
  <value>1</value>
@@ -21,4 +22,20 @@
   <name>dfs.namenode.acls.enabled</name>
   <value>true</value>
 </property>
+
+<property>
+  <name>dfs.webhdfs.enabled</name>
+  <value>true</value>
+</property>
+
+<property>
+  <name>dfs.support.append</name>
+  <value>true</value>
+</property>
+
+<property>
+  <name>dfs.support.broken.append</name>
+  <value>true</value>
+</property>
+
 </configuration>
