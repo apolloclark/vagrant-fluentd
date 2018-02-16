@@ -9,5 +9,5 @@ sudo -u hadoop -i << 'EOF'
   hdfs --daemon start httpfs
 
   # get a list of running Java services
-  ps -aux | grep java | awk -v OFS='\t' '{print $12, $2}' | cut -c 8- | head -n -1 | awk '{print $2, $1}'
+  ps -auxww | grep java | awk '{print $12, $2}' | cut -c 8- | head -n -1 | awk '{print $2, $1}'
 EOF
