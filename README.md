@@ -49,7 +49,7 @@ vagrant up
 ### fluentd
 
 ```shell
-# config
+# config file
 nano /etc/td-agent/td-agent.conf
 
 # update config
@@ -73,12 +73,12 @@ systemctl stop td-agent
 # restart
 systemctl restart td-agent
 
-# logs
+# log file
 nano /var/log/td-agent/td-agent.log
-watch -n 1 "tail -n 48 /var/log/td-agent/td-agent.log"
 
 # clear logs
-echo "" > /var/log/td-agent/td-agent.log
+systemctl stop td-agent && echo "" > /var/log/td-agent/td-agent.log && systemctl restart td-agent
+watch -n 1 "tail -n 48 /var/log/td-agent/td-agent.log"
 
 # check if selinux is blocking
 grep -F "td-agent" /var/log/audit/audit.log | grep -F "success=no"
@@ -93,13 +93,16 @@ semanage port -l | grep -F "syslogd_port_t" | grep 5140
 ### rsyslogd
 
 ```shell
-# config
+# config file
 nano /etc/rsyslog.conf
+
+# update config
+\cp /vagrant/provision/rsyslogd/rsyslog.conf /etc/rsyslog.conf && systemctl restart rsyslog
 
 # verify config
 rsyslogd -N1
 
-# check verstion
+# check verstion, Linux = 8.24.0, Windows = 4.3.0.255
 rsyslogd -version | head -n 1
 
 # check package version
@@ -133,6 +136,9 @@ grep -F "testmessage5" /var/log/td-agent/td-agent.log
 ### hadoop
 
 ```shell
+
+# startup
+/vagrant/provision/hadoop/start_hadoop.sh
 
 # get a list of running Java services
 ps -aux | grep java | awk '{print $12, $2}' | cut -c 8- | head -n -1 | awk '{print $2, $1}'
