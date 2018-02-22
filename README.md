@@ -1,4 +1,4 @@
-# fluentd-vagrant
+# vagrant-fluentd
 
 Project to deploy a Redhat based fluentd collector, from rsyslog, to Hadoop, running on
 multiple different Linux and Windows hosts.
